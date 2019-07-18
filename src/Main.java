@@ -68,7 +68,7 @@ public class Main {
         if(request.getResponse().response_body.length() > 0 && request.getResponse().http_code == 200)
             resp = request.getResponse().response_body;
         else
-            System.out.println(request.getResponse().http_code);
+            System.out.println("Error dispatching request: " + request.getResponse().http_code);
 
         request.close();
         return resp;
