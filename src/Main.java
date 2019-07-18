@@ -31,6 +31,9 @@ public class Main {
             add('/');
             add('\\');
             add('\'');
+            add('=');
+            add('-');
+            add('%');
             add('"');
             add('{');
             add('}');
