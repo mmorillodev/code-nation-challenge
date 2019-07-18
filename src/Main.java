@@ -22,7 +22,7 @@ public class Main {
         MIN_LITERAL = 97;
         MAX_LITERAL = 122;
         file        = new File("C:\\Users\\Nescara\\Desktop\\answer.json");
-        illeteral   = new ArrayList<>(25){{
+        illeteral   = new ArrayList<>(26){{
             add('.');
             add('?');
             add('!');
@@ -39,6 +39,7 @@ public class Main {
             add('(');
             add(')');
             add(' ');
+            add('0');
             add('1');
             add('2');
             add('3');
