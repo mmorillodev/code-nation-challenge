@@ -41,7 +41,7 @@ public class Main {
 
         String json = getJson();
 
-        if(json.length() < 0)
+        if(json.length() <= 0)
             return;
 
         ResponseData data;
