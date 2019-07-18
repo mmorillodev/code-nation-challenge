@@ -125,8 +125,7 @@ public class Main {
     }
 
     private static String getForm() {
-        return
-                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"answer\"; filename=\"C:\\Users\\Nescara\\Desktop\\answer.json\"\r\nContent-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--";
+        return "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"answer\"; filename=\"C:\\Users\\Nescara\\Desktop\\answer.json\"\r\nContent-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--";
     }
 
     private static class ResponseData {
@@ -136,5 +135,4 @@ public class Main {
         String decifrado;
         String resumo_criptografico;
     }
-
 }
