@@ -17,8 +17,8 @@ public class Main {
     private static final String     SEND_URL;
 
     static {
-        GET_URL = "https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=0d67bca1cbc630fdeeb6a4ace6b5963b2224261d";
-        SEND_URL = "https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=0d67bca1cbc630fdeeb6a4ace6b5963b2224261d";
+        GET_URL     = "https://api.codenation.dev/v1/challenge/dev-ps/generate-data?token=0d67bca1cbc630fdeeb6a4ace6b5963b2224261d";
+        SEND_URL    = "https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=0d67bca1cbc630fdeeb6a4ace6b5963b2224261d";
         MIN_LITERAL = 97;
         MAX_LITERAL = 122;
         file        = new File("C:\\Users\\Nescara\\Desktop\\answer.json");
