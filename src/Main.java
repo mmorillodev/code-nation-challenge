@@ -22,7 +22,7 @@ public class Main {
         MIN_LITERAL = 97;
         MAX_LITERAL = 122;
         file        = new File("C:\\Users\\Nescara\\Desktop\\answer.json");
-        illeteral   = new ArrayList<>(){{
+        illeteral   = new ArrayList<>(25){{
             add('.');
             add('?');
             add('!');
@@ -39,6 +39,15 @@ public class Main {
             add('(');
             add(')');
             add(' ');
+            add('1');
+            add('2');
+            add('3');
+            add('4');
+            add('5');
+            add('6');
+            add('7');
+            add('8');
+            add('9');
         }};
     }
 
@@ -52,17 +61,10 @@ public class Main {
         if(json.length() < 0)
             return;
 
-        writer.print(json);
-        writer.flush();
-        writer.close();
-
         ResponseData data;
         data = gson.fromJson(json, ResponseData.class);
 
-        writer = new PrintWriter(file);
-
         decrypt(data);
-
         data.resumo_criptografico = String.format("%040x", new BigInteger(1, new SHA1().digest(data.decifrado.getBytes())));
 
         json = gson.toJson(data);
@@ -71,7 +73,7 @@ public class Main {
         writer.flush();
         writer.close();
 
-        //sendJson(file);
+        sendJson(file);
     }
 
     private static String getJson() throws IOException {
@@ -97,8 +99,9 @@ public class Main {
 
         HttpRequest request = new HttpRequest(SEND_URL, "POST");
         request.setHeaders(headers);
-        request.setParameters(getForm());
+        request.setParameters("answer="+file.getAbsolutePath());
         request.fireRequest();
+
         HttpRequest.ResponseDatas response = request.getResponse();
 
         System.out.println(response.http_code);
@@ -122,10 +125,6 @@ public class Main {
         }
 
         encrypted.decifrado = new String(byteStr);
-    }
-
-    private static String getForm() {
-        return "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"answer\"; filename=\"C:\\Users\\Nescara\\Desktop\\answer.json\"\r\nContent-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--";
     }
 
     private static class ResponseData {
