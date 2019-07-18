@@ -1,5 +1,4 @@
 import com.google.gson.Gson;
-
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ public class Main {
         writer.flush();
         writer.close();
 
-        sendJson(file);
+        //sendJson(file);
     }
 
     private static String getJson() throws IOException {
@@ -86,6 +85,7 @@ public class Main {
         else
             System.out.println(request.getResponse().http_code);
 
+        request.close();
         return resp;
     }
 
@@ -97,20 +97,12 @@ public class Main {
 
         HttpRequest request = new HttpRequest(SEND_URL, "POST");
         request.setHeaders(headers);
-
-        OutputStream outputStream = request.getOutputStream();
-        FileInputStream fileStram = new FileInputStream(file);
-
-        int bytesRead;
-        byte[] dataBuffer = new byte[1024];
-        while((bytesRead = fileStram.read(dataBuffer)) != -1) {
-            outputStream.write(dataBuffer, 0, bytesRead);
-        }
-
+        request.setParameters(getForm());
         request.fireRequest();
         HttpRequest.ResponseDatas response = request.getResponse();
 
         System.out.println(response.http_code);
+        request.close();
     }
 
     private static void decrypt(ResponseData encrypted) {
@@ -132,24 +124,9 @@ public class Main {
         encrypted.decifrado = new String(byteStr);
     }
 
-    private String getForm() {
+    private static String getForm() {
         return
-            "<html>"+
-                "<body>"+
-                    "<form action=\"http://ipv4.fiddler/test/GetPostRequest.php\""+
-                    "method=\"post\""+
-                    "enctype=\"multipart/form-data\">"+
-                    "<p>"+
-                    "<strong>My file description:</strong>"+
-                    "<textarea name=\"myFileDescription\" rows=\"2\" cols=\"20\">"+
-                    "</textarea><br/> <br/>"+
-                    "<strong>My file:</strong><br/>"+
-                    "<input type=\"file\" name=\"" + file.getName() + "\">"+
-                    "</p>"+
-                    "<input type=\"submit\" value = \"Submit\">"+
-                    "</form>"+
-                "</body>"+
-            "</html>";
+                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: form-data; name=\"answer\"; filename=\"C:\\Users\\Nescara\\Desktop\\answer.json\"\r\nContent-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--";
     }
 
     private static class ResponseData {

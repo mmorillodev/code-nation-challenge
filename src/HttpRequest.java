@@ -99,10 +99,6 @@ public class HttpRequest {
         return parameters;
     }
 
-    public OutputStream getOutputStream() throws IOException {
-        return connection.getOutputStream();
-    }
-
     public HttpRequest fireRequest() throws IOException {
         ResponseDatas data = new ResponseDatas();
         httpCode = connection.getResponseCode();
