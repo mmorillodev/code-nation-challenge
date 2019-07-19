@@ -1,4 +1,5 @@
 import com.google.gson.Gson;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -77,18 +78,24 @@ public class Main {
     private static void sendJson(File file) throws IOException {
         Map<String, String> headers = new HashMap<>(){{
             put("Content-Length", String.valueOf(file.length()));
-            put("Content-Type", "multipart/form-data");
+            put("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
+            put("Content-Type", "application/x-www-form-urlencoded");
         }};
 
         HttpRequest request = new HttpRequest(SEND_URL, "POST");
         request.setHeaders(headers);
-        request.setParameters("answer="+file.getAbsolutePath());
+        request.setParameters(
+                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+                "Content-Disposition: form-data; name=\"answer\"; filename=" + file.getName() + "\"\r\n" +
+                "Content-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--"
+        );
         request.fireRequest();
+        request.close();
 
         HttpRequest.ResponseDatas response = request.getResponse();
 
-        System.out.println(response.http_code);
-        request.close();
+        System.out.println(response.toString());
+        System.out.println(request.getParameters());
     }
 
     private static void decrypt(ResponseData encrypted) {

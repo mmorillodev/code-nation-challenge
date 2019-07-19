@@ -207,5 +207,11 @@ public class HttpRequest {
             else
                 errors = message;
         }
+
+        public String toString() {
+            return "[response_body] => " + response_body + "\n" +
+                   "[http_code] => " + http_code + "\n" +
+                   "[response_headers] => " + response_headers.toString();
+        }
     }
 }
