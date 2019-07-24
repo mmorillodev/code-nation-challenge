@@ -79,7 +79,6 @@ public class Main {
         Map<String, String> headers = new HashMap<>(){{
             put("Content-Length", String.valueOf(file.length()));
             put("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
-            put("Content-Type", "application/x-www-form-urlencoded");
         }};
 
         HttpRequest request = new HttpRequest(SEND_URL, "POST");
@@ -95,7 +94,7 @@ public class Main {
         HttpRequest.ResponseDatas response = request.getResponse();
 
         System.out.println(response.toString());
-        System.out.println(request.getParameters());
+        System.out.println(response.errors);
     }
 
     private static void decrypt(ResponseData encrypted) {

@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="acc2eb66-d7a3-4761-ae34-3fe5c21a91dc" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CodenationChallenge1/HttpRequest$ResponseDatas.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CodenationChallenge1/HttpRequest$ResponseDatas.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$ResponseData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main$ResponseData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CodenationChallenge1/Main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/HttpRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/HttpRequest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -26,11 +23,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="97" column="52" lean-forward="true" selection-start-line="97" selection-start-column="52" selection-end-line="97" selection-end-column="52" />
+            <state relative-caret-position="618">
+              <caret line="96" column="42" selection-start-line="96" selection-start-column="42" selection-end-line="96" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="class#ResponseData#0;class#Main#0" />
               </folding>
             </state>
           </provider>
@@ -39,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/HttpRequest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="191">
-              <caret line="139" column="86" selection-start-line="139" selection-start-column="86" selection-end-line="139" selection-end-column="86" />
+            <state relative-caret-position="2057">
+              <caret line="137" selection-start-line="137" selection-end-line="137" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#3036#3037#0" expanded="true" />
@@ -80,6 +76,7 @@
       <find>getResponseBody</find>
       <find>0x80</find>
       <find>https://api.codenation.dev/v1/challenge/dev-ps/submit-solution?token=0d67bca1cbc630fdeeb6a4ace6b5963b2224261d</find>
+      <find>contains(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -115,6 +112,7 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -135,7 +133,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -211,14 +208,14 @@
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13486141" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1369936" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="UI Designer" order="3" />
       <window_info id="Favorites" order="4" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" visible="true" weight="0.1789925" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49946696" weight="0.1789925" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -289,13 +286,6 @@
             <element signature="e#24272#24273#0" expanded="true" />
             <element signature="e#24299#24300#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.base/java/util/ArrayList.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="302">
-          <caret line="151" column="11" selection-start-line="151" selection-start-column="11" selection-end-line="151" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -387,10 +377,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.base/java/util/List.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="171" column="12" selection-start-line="171" selection-start-column="12" selection-end-line="171" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://C:/Program Files/Java/jdk-10.0.2/lib/src.zip!/java.base/java/util/ArrayList.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="535">
+          <caret line="324" column="9" lean-forward="true" selection-start-line="324" selection-start-column="9" selection-end-line="324" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="618">
+          <caret line="96" column="42" selection-start-line="96" selection-start-column="42" selection-end-line="96" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/HttpRequest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="139" column="86" selection-start-line="139" selection-start-column="86" selection-end-line="139" selection-end-column="86" />
+        <state relative-caret-position="2057">
+          <caret line="137" selection-start-line="137" selection-end-line="137" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#3036#3037#0" expanded="true" />
@@ -405,17 +419,6 @@
             <element signature="e#5298#5299#0" expanded="true" />
             <element signature="e#5351#5352#0" expanded="true" />
             <element signature="e#5427#5428#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="97" column="52" lean-forward="true" selection-start-line="97" selection-start-column="52" selection-end-line="97" selection-end-column="52" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="class#ResponseData#0;class#Main#0" />
           </folding>
         </state>
       </provider>
