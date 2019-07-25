@@ -1,12 +1,12 @@
 import com.google.gson.Gson;
 
+import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 
+@SuppressWarnings("All")
 public class Main {
 
     private static File             file;
@@ -76,25 +76,36 @@ public class Main {
     }
 
     private static void sendJson(File file) throws IOException {
-        Map<String, String> headers = new HashMap<>(){{
-            put("Content-Length", String.valueOf(file.length()));
-            put("Content-Type", "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW");
-        }};
+        URL url = new URL(SEND_URL);
+        HttpsURLConnection con = (HttpsURLConnection) url.openConnection();
 
-        HttpRequest request = new HttpRequest(SEND_URL, "POST");
-        request.setHeaders(headers);
-        request.setParameters(
-                "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\n" +
+        con.setDoOutput(true);
+        con.setDoInput(true);
+
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Length", String.valueOf(file.length()));
+        con.setRequestProperty("Content-Type", "multipart/form-data; boundary=WebKitFormBoundary");
+
+        OutputStream oStream = con.getOutputStream();
+
+        oStream.write(
+            (
+                "WebKitFormBoundary\r\r\n\n" +
                 "Content-Disposition: form-data; name=\"answer\"; filename=" + file.getName() + "\"\r\n" +
-                "Content-Type: application/json\r\n\r\n\r\n------WebKitFormBoundary7MA4YWxkTrZu0gW--"
+                "Content-Type: application/json\r\r\n\n"
+            ).getBytes()
         );
-        request.fireRequest();
-        request.close();
 
-        HttpRequest.ResponseDatas response = request.getResponse();
+        oStream.write(getFileAsByteArray(file));
+        oStream.write("\n\n\r\r".getBytes());
 
-        System.out.println(response.toString());
-        System.out.println(response.errors);
+        oStream.write("WebKitFormBoundary".getBytes());
+        oStream.flush();
+        oStream.close();
+
+        System.out.println(con.getResponseCode());
+        System.out.println(getResponse(con));
+        System.out.println(oStream.toString());
     }
 
     private static void decrypt(ResponseData encrypted) {
@@ -114,6 +125,37 @@ public class Main {
         }
 
         encrypted.decifrado = new String(byteStr);
+    }
+
+    private static byte[] getFileAsByteArray(File file) {
+        FileInputStream stream;
+        byte[] arrayFile = new byte[(int)file.length()];
+        try {
+            stream = new FileInputStream(file);
+            stream.read(arrayFile);
+            stream.close();
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return arrayFile;
+    }
+
+    private static String getResponse(HttpsURLConnection con) throws IOException {
+        BufferedReader in = null;
+        String inLine;
+
+        if(con.getResponseCode() >= 200 && con.getResponseCode()< 300)
+            in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+        else if(con.getErrorStream() != null)
+            in = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+
+        StringBuffer response = new StringBuffer();
+
+        while(in != null && (inLine = in.readLine()) != null)
+            response.append(inLine);
+
+        return response.toString();
     }
 
     private static class ResponseData {

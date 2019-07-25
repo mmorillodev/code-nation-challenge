@@ -16,83 +16,92 @@ import javax.net.ssl.SSLContext;
 
 public class HttpRequest {
 
+    private String                  url;
+    private String                  method;
     private String                  parameters;
-    private Map<String, String>     requestHeaders;
     private HttpURLConnection       connection;
-    private ResponseDatas           response;
+    private ResponseData            response;
+    private Object                  headers;
     private int                     httpCode;
 
     public final int NO_TIMEOUT = 0;
 
     public HttpRequest(String url, String method) {
-        try {
-            createConnection(url, method);
-        } catch (IOException | KeyManagementException | NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
+        this.url    = url;
+        this.method = method;
     }
 
     private void createConnection(String url, String method) throws IOException, KeyManagementException, NoSuchAlgorithmException {
         if(!isValidConnection(url))
             url = "http://" + url;
 
-        HttpURLConnection connection;
-        connection = (HttpURLConnection) new URL(url).openConnection();
-        connection.setRequestMethod(method);
-        connection.setConnectTimeout(NO_TIMEOUT);
-        connection.setReadTimeout(NO_TIMEOUT);
-        connection.setInstanceFollowRedirects(true);
-        connection.setDoInput(true);
+        this.connection = (HttpURLConnection) new URL(url).openConnection();
+        this.connection.setRequestMethod(method);
+        this.connection.setConnectTimeout(NO_TIMEOUT);
+        this.connection.setReadTimeout(NO_TIMEOUT);
+        this.connection.setInstanceFollowRedirects(true);
+        this.connection.setDoInput(true);
 
-        if(connection instanceof HttpsURLConnection) {
+        if(this.connection instanceof HttpsURLConnection) {
             SSLContext ssl = SSLContext.getInstance("TLSv1.2");
             ssl.init(null, null, new SecureRandom());
 
-            ((HttpsURLConnection) connection).setSSLSocketFactory(ssl.getSocketFactory());
+            ((HttpsURLConnection) this.connection).setSSLSocketFactory(ssl.getSocketFactory());
         }
 
-        if(!method.equals("GET"))
-            connection.setDoOutput(true);
+        if(this.headers != null) {
+            if(this.headers instanceof String) {
+                String[] headersArr = ((String) headers).split("&");
+                for (String headerStr : headersArr) {
+                    String[] headerArr = headerStr.split(":");
+                    this.connection.setRequestProperty(headerArr[0], headerArr[1]);
+                }
+            }
+            else if(this.headers instanceof Map) {
+                for (String key : ((Map<String, String>) this.headers).keySet()) {
+                    this.connection.setRequestProperty(key, ((Map<String, String>) this.headers).get(key));
+                }
+            }
+        }
 
-        this.connection = connection;
+        if(!method.equals("GET") && this.parameters != null) {
+            this.connection.setDoOutput(true);
+            OutputStream os = this.connection.getOutputStream();
+            os.write(this.parameters.getBytes());
+            os.flush();
+        }
     }
 
     public HttpRequest setHeaders(Map<String, String> headers) {
         if(headers == null)
             return this;
 
-        this.requestHeaders = headers;
-
-        for (String key : headers.keySet()) {
-            connection.setRequestProperty(key, headers.get(key));
-        }
-
+        this.headers = headers;
         return this;
     }
 
-    public HttpRequest setHeaders(String headers) throws ArrayIndexOutOfBoundsException {
+    public HttpRequest setHeaders(String headers) {
         if(headers == null)
             return this;
 
-        String[] headersArr = headers.split("&");
-        for (String headerStr : headersArr) {
-            String[] headerArr = headerStr.split(":");
-            connection.setRequestProperty(headerArr[0], headerArr[1]);
-        }
-
+        this.headers = headers;
         return this;
     }
 
-    public HttpRequest setParameters(String params) throws IOException {
-        if(params == null || getRequestMethod().equals("GET"))
+    public HttpRequest setParameters(String params) {
+        if(params == null || method.equals("GET"))
             return this;
 
         this.parameters = params;
-        OutputStream os = connection.getOutputStream();
-        os.write(params.getBytes());
-        os.flush();
-
         return this;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getParameters() {
@@ -100,7 +109,13 @@ public class HttpRequest {
     }
 
     public HttpRequest fireRequest() throws IOException {
-        ResponseDatas data = new ResponseDatas();
+        try {
+            createConnection(this.url, this.method);
+        } catch (KeyManagementException | NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        ResponseData data = new ResponseData();
         httpCode = connection.getResponseCode();
 
         switch(httpCode) {
@@ -146,10 +161,17 @@ public class HttpRequest {
         while(in != null && (inLine = in.readLine()) != null)
             response.append(inLine);
 
-        if(in != null)
-            in.close();
-
         return response.toString();
+    }
+
+    public OutputStream getOutputStream() {
+        try {
+            return connection.getOutputStream();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public String getUrl() {
@@ -160,11 +182,11 @@ public class HttpRequest {
         return connection.getRequestMethod();
     }
 
-    public Map<String, String> getRequestHeaders() {
-        return requestHeaders;
+    public Object getRequestHeaders() {
+        return headers;
     }
 
-    public ResponseDatas getResponse() {
+    public ResponseData getResponse() {
         return response;
     }
 
@@ -186,19 +208,19 @@ public class HttpRequest {
                 (getRequestHeaders() != null ? "\n Headers: " + getRequestHeaders().toString() : "");
     }
 
-    public class ResponseDatas {
+    public class ResponseData {
 
         public String                       response_body, errors;
         public Map<String, List<String>>    response_headers;
         public int                          http_code;
 
-        public ResponseDatas() {
+        public ResponseData() {
             response_body = "";
             http_code = 0;
             response_headers = new HashMap<>();
         }
 
-        public ResponseDatas(String message, Integer http_code) {
+        public ResponseData(String message, Integer http_code) {
             this();
             this.http_code = http_code;
 
@@ -210,8 +232,9 @@ public class HttpRequest {
 
         public String toString() {
             return "[response_body] => " + response_body + "\n" +
-                   "[http_code] => " + http_code + "\n" +
-                   "[response_headers] => " + response_headers.toString();
+                    "[http_code] => " + http_code + "\n" +
+                    "[Errors] => " + errors + "\n" +
+                    "[response_headers] => " + response_headers.toString();
         }
     }
 }
