@@ -18,7 +18,7 @@ public class HttpRequest {
 
     private String                  url;
     private String                  method;
-    private String                  parameters;
+    private StringBuilder           parameters;
     private HttpURLConnection       connection;
     private ResponseData            response;
     private Object                  headers;
@@ -27,8 +27,9 @@ public class HttpRequest {
     public final int NO_TIMEOUT = 0;
 
     public HttpRequest(String url, String method) {
-        this.url    = url;
-        this.method = method;
+        this.parameters = new StringBuilder();
+        this.url        = url;
+        this.method     = method;
     }
 
     private void createConnection(String url, String method) throws IOException, KeyManagementException, NoSuchAlgorithmException {
@@ -67,7 +68,7 @@ public class HttpRequest {
         if(!method.equals("GET") && this.parameters != null) {
             this.connection.setDoOutput(true);
             OutputStream os = this.connection.getOutputStream();
-            os.write(this.parameters.getBytes());
+            os.write(this.parameters.toString().getBytes());
             os.flush();
         }
     }
@@ -92,7 +93,7 @@ public class HttpRequest {
         if(params == null || method.equals("GET"))
             return this;
 
-        this.parameters = params;
+        this.parameters.append(params);
         return this;
     }
 
@@ -105,7 +106,7 @@ public class HttpRequest {
     }
 
     public String getParameters() {
-        return parameters;
+        return parameters.toString();
     }
 
     public HttpRequest fireRequest() throws IOException {
@@ -162,16 +163,6 @@ public class HttpRequest {
             response.append(inLine);
 
         return response.toString();
-    }
-
-    public OutputStream getOutputStream() {
-        try {
-            return connection.getOutputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return null;
     }
 
     public String getUrl() {
